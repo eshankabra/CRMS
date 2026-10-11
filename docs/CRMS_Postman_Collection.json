@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "CRMS - Course Registration & Management System API",
+    "description": "Postman API Collection for CRMS Backend (VIT Vellore DBMS Review 2)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Student Registration",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roll_no\": \"25BBS0099\",\n  \"name\": \"Rahul Verma\",\n  \"email\": \"rahul.v@vitstudent.ac.in\",\n  \"phone\": \"9811100099\",\n  \"date_of_birth\": \"2005-01-30\",\n  \"gender\": \"Male\",\n  \"department_id\": 4,\n  \"semester_id\": 1,\n  \"password\": \"Student@123\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/auth/register", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "register"]}
+          }
+        },
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@crms.vit.ac.in\",\n  \"password\": \"Admin@123\",\n  \"role\": \"Admin\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "login"]}
+          }
+        },
+        {
+          "name": "Student Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"eshan.kabra@vitstudent.ac.in\",\n  \"password\": \"Student@123\",\n  \"role\": \"Student\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "login"]}
+          }
+        },
+        {
+          "name": "Faculty Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rajesh.sharma@vit.ac.in\",\n  \"password\": \"Faculty@123\",\n  \"role\": \"Faculty\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "login"]}
+          }
+        },
+        {
+          "name": "Get Profile (/me)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/auth/me", "host": ["{{baseUrl}}"], "path": ["api", "v1", "auth", "me"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Courses & Availability",
+      "item": [
+        {
+          "name": "List Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/v1/courses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "courses"]}
+          }
+        },
+        {
+          "name": "Check Seat Availability",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/v1/courses/3/availability", "host": ["{{baseUrl}}"], "path": ["api", "v1", "courses", "3", "availability"]}
+          }
+        },
+        {
+          "name": "Create Course (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"course_code\": \"CSE4050\",\n  \"course_name\": \"Advanced Machine Learning\",\n  \"credits\": 4,\n  \"course_type\": \"Core\",\n  \"maximum_seats\": 60,\n  \"department_id\": 1\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/courses", "host": ["{{baseUrl}}"], "path": ["api", "v1", "courses"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Registrations",
+      "item": [
+        {
+          "name": "Register for Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"course_id\": 5\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/registrations", "host": ["{{baseUrl}}"], "path": ["api", "v1", "registrations"]}
+          }
+        },
+        {
+          "name": "My Registrations",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/registrations/me", "host": ["{{baseUrl}}"], "path": ["api", "v1", "registrations", "me"]}
+          }
+        },
+        {
+          "name": "Approve Registration (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/registrations/1/approve", "host": ["{{baseUrl}}"], "path": ["api", "v1", "registrations", "1", "approve"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Payments",
+      "item": [
+        {
+          "name": "Create Payment Intent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"registration_id\": 1,\n  \"amount\": 6000.00,\n  \"payment_mode\": \"Online\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/payments", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payments"]}
+          }
+        },
+        {
+          "name": "My Payments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/payments/me", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payments", "me"]}
+          }
+        },
+        {
+          "name": "Verify Payment (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/payments/1/verify", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payments", "1", "verify"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Attendance",
+      "item": [
+        {
+          "name": "Record Attendance (Faculty)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"student_id\": 1,\n  \"course_id\": 3,\n  \"attendance_date\": \"2026-09-01\",\n  \"status\": \"Present\"\n}"
+            },
+            "url": {"raw": "{{baseUrl}}/api/v1/attendance", "host": ["{{baseUrl}}"], "path": ["api", "v1", "attendance"]}
+          }
+        },
+        {
+          "name": "My Attendance (Student)",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/attendance/me", "host": ["{{baseUrl}}"], "path": ["api", "v1", "attendance", "me"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Reports",
+      "item": [
+        {
+          "name": "Enrollment Summary",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/reports/enrollment-summary", "host": ["{{baseUrl}}"], "path": ["api", "v1", "reports", "enrollment-summary"]}
+          }
+        },
+        {
+          "name": "Financial Report",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "{{baseUrl}}/api/v1/reports/payments", "host": ["{{baseUrl}}"], "path": ["api", "v1", "reports", "payments"]}
+          }
+        }
+      ]
+    }
+  ]
+}
